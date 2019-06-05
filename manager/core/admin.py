@@ -20,12 +20,26 @@ class PersonAdmin(admin.ModelAdmin):
     list_filter = ('name', 'cpf')
     search_fields = ('name', 'cpf')
 
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
+
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
     list_display = ['name']
     list_filter = ['name']
     search_fields = ['name']
+
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
 
 
 @admin.register(City)
@@ -34,12 +48,26 @@ class CityAdmin(admin.ModelAdmin):
     list_filter = ('name', 'state')
     search_fields = ('name', 'state')
 
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
+
 
 @admin.register(State)
 class StateAdmin(admin.ModelAdmin):
     list_display = ['name', 'country']
     list_filter = ('name', 'country')
     search_fields = ('name', 'country')
+
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
 
 
 @admin.register(Employee)
@@ -49,6 +77,13 @@ class EmployeeAdmin(admin.ModelAdmin):
     search_fields = ('person', 'role', 'email')
     actions = [dismiss_employee, hire_again]
 
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
+
 
 @admin.register(Role)
 class RoleAdmin(admin.ModelAdmin):
@@ -56,12 +91,26 @@ class RoleAdmin(admin.ModelAdmin):
     list_filter = ('name', 'salary', 'is_active')
     search_fields = ('name', 'salary')
 
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
+
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = ['street', 'number', 'neighborhood', 'zip_code', 'city']
     list_filter = ('street', 'neighborhood', 'zip_code', 'city')
     search_fields = ('street', 'neighborhood', 'zip_code', 'city')
+
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
 
 
 admin.site.index_title = ""
