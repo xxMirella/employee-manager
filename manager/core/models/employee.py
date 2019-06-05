@@ -9,7 +9,7 @@ class Employee(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     person = models.ForeignKey('person', on_delete=models.CASCADE)
-    email = models.EmailField(null=False, blank=False)
+    email = models.EmailField(null=False, blank=False, unique=True)
     role = models.ForeignKey('role', on_delete=models.CASCADE)
     hiring_date = models.DateField(null=False, blank=False)
     still_employee = models.BooleanField(default=True)
