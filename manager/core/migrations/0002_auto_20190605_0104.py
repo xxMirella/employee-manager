@@ -10,38 +10,106 @@ def populate_country(apps, schema_editor):
 
 def populate_state(apps, schema_editor):
     state = apps.get_model('core', 'State')
-    countrys = apps.get_model('core', 'Country')
-    country = countrys.objects.first()
-    state.objects.create(name='São Paulo', country=country)
-    state.objects.create(name='Rio de Janeiro', country=country)
+    country_model = apps.get_model('core', 'Country')
+    country_instance = country_model.objects.first()
+
+    state.objects.create(
+        name='São Paulo', country=country_instance
+    )
+
+    state.objects.create(
+        name='Bahia', country=country_instance
+    )
+
+    state.objects.create(
+        name='Paraná', country=country_instance
+    )
 
 
 def populate_city(apps, schema_editor):
+    state = apps.get_model('core', 'State')
     city = apps.get_model('core', 'City')
-    states = apps.get_model('core', 'State')
-    state = states.object.get(name='São Paulo')
-    city.objects.create(name='São Paulo', state=state)
-    city.objects.create(name='Guarulhos', state=state)
-    city.objects.create(name='Santos', state=state)
+
+    city.objects.create(
+        name='São Paulo', state=state.objects.get(name='São Paulo')
+    )
+
+    city.objects.create(
+        name='Holambra', state=state.objects.get(name='São Paulo')
+    )
+
+    city.objects.create(
+        name='Criciúma', state=state.objects.get(name='Bahia')
+    )
+
+    city.objects.create(
+        name='Cascável', state=state.objects.get(name='Paraná')
+    )
 
 
-def populate_address(apps, schema_editor):
+def populate_employee(apps, schema_editor):
+    person = apps.get_model('core', 'Person')
     address = apps.get_model('core', 'Address')
-    cities = apps.get_model('core', 'City')
-    for city in cities.objects.all():
-        address.objects.create(
-            street='Rua 1', number=40, neighborhood='Vila Jardim Terra', zip_code=14528774, city=city
+    city = apps.get_model('core', 'City')
+    employee = apps.get_model('core', 'Employee')
+    role = apps.get_model('core', 'Role')
+
+    employee.objects.create(person=person.objects.create(
+        name='João da Silva', cpf=73622178035, birthday='1998-05-20', address=address.objects.create(
+            street='Rua 1', number=40, neighborhood='Vila Jardim Terra', zip_code=14528774,
+            city=city.objects.get(name='São Paulo')
         )
-        address.objects.create(
-            street='Rua 2', number=90, neighborhood='Vila Jardim Céu', zip_code=24563887, city=city
+    ), email='joãodasilva@hotmail.com', role=role.objects.create(name='Estagiário', salary=3000),
+        hiring_date='2019-05-01'
+    )
+
+    employee.objects.create(person=person.objects.create(
+        name='Maria Joana', cpf=28873166059, birthday='1987-05-21', address=address.objects.create(
+            street='Rua Paralelepipedos', number=10, neighborhood='Vila Jardim Luz', zip_code=54267883,
+            city=city.objects.get(name='São Paulo')
         )
-        address.objects.create(
-            street='Rua 1', number=140, neighborhood='Vila Jardim Vento', zip_code=87965224, city=city
+    ), email='maria-joana@hotmail.com', role=role.objects.create(name='Analista Sênior', salary=13000),
+        hiring_date='2015-07-12'
+    )
+
+    employee.objects.create(person=person.objects.create(
+        name='Riquelme Joel', cpf=24756856039, birthday='1980-04-10', address=address.objects.create(
+            street='Rua das amoreiras', number=112, neighborhood='Vila Jaú', zip_code=987564231,
+            city=city.objects.get(name='Holambra')
         )
+    ), email='rick@hotmail.com', role=role.objects.create(name='Gerente Geral', salary=60000),
+        hiring_date='2010-02-19'
+    )
+
+    employee.objects.create(person=person.objects.create(
+        name='Amália Melo', cpf=11772092096, birthday='1970-05-13', address=address.objects.create(
+            street='Avenida San Paolo', number=1123, neighborhood='Jardim Bela', zip_code=2345761834,
+            city=city.objects.get(name='Criciúma')
+        )
+    ), email='amalia-melo@hotmail.com', role=role.objects.create(name='Engenheira de Software', salary=9000),
+        hiring_date='2019-03-25'
+    )
+
+    employee.objects.create(person=person.objects.create(
+        name='Ronan Pereira Pinto', cpf=26136560003, birthday='1999-05-20', address=address.objects.create(
+            street='Rua Jujubas Azuis', number=78, neighborhood='Vila Rosália', zip_code=763456829,
+            city=city.objects.get(name='Cascável')
+        )
+    ), email='ro123@hotmail.com', role=role.objects.create(name='Auxiliar Administrativo', salary=3000),
+        hiring_date='2010-02-19'
+    )
+
+    employee.objects.create(person=person.objects.create(
+        name='Maria Rica', cpf=33313487084, birthday='1998-05-20', address=address.objects.create(
+            street='Rua 1', number=40, neighborhood='Vila Jardim Terra', zip_code=14528774,
+            city=city.objects.get(name='Cascável')
+        )
+    ), email='mari-rica123@hotmail.com', role=role.objects.create(name='Gerente Administrativa', salary=7000),
+        hiring_date='2019-05-01'
+    )
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('core', '0001_initial'),
     ]
@@ -49,4 +117,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(populate_country),
         migrations.RunPython(populate_state),
+        migrations.RunPython(populate_city),
+        migrations.RunPython(populate_employee),
     ]
