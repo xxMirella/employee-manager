@@ -10,6 +10,7 @@ class Role(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(null=False, blank=False, max_length=200)
     salary = models.IntegerField(null=False, blank=False)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return "{0} - R${1}".format(self.name, self.salary)
