@@ -8,3 +8,4 @@ class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = State
         fields = '__all__'
+        allow_null = False

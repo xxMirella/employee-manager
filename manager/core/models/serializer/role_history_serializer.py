@@ -8,3 +8,4 @@ class RoleHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = RoleHistory
         fields = '__all__'
+        allow_null = False

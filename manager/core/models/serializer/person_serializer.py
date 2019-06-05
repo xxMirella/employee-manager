@@ -8,3 +8,5 @@ class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = '__all__'
+        depth = 1
+        allow_null = False
