@@ -29,7 +29,21 @@ Para rodar a aplicação execute o comando:
 
 - Abre o painel administrativo, onde você pode criar funcionários e atualizar seus registros, apenas usuários que possuem login tem acesso ao painel.
 
+**/api/login/**
+
+- Rota para logar na api e ter acesso a edição de dados via API rest.
+**Formato da entrada**
+```
+{
+    "username":,
+    "password":
+}
+```
+
 **/api/employees/**
 
-- Envia um `json` contendo todos os funcionários cadastrados e seus dados
+- Envia um `json` contendo todos os funcionários cadastrados e seus dados.
 
+### Informações adicionais
+
+Primeira versão 1.0
