@@ -13,12 +13,3 @@ def list_employee(request):
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 
-
-@api_view(['POST'])
-def create_employee(request):
-    if request:
-        serialized = EmployeeSerializer(data=request.data)
-        if serialized.is_valid():
-            serialized.save()
-            return Response(serialized.data, status=HTTP_201_CREATED)
-        return Response(serialized.errors, status=HTTP_400_BAD_REQUEST)

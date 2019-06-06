@@ -7,6 +7,7 @@ from ..validators.validate_cpf import validate_cpf
 class Person(models.Model):
     class Meta:
         db_table = 'person'
+        verbose_name_plural = 'people'
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(null=False, blank=False, max_length=100)

@@ -7,5 +7,5 @@ class RoleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Role
-        fields = '__all__'
+        exclude = ('id',)
         allow_null = False

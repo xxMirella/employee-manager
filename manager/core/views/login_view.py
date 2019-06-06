@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.status import (
@@ -9,6 +8,7 @@ from rest_framework.status import (
     HTTP_200_OK
 )
 from rest_framework.response import Response
+from rest_framework_jwt.settings import api_settings
 
 
 @csrf_exempt
@@ -17,6 +17,8 @@ from rest_framework.response import Response
 def login(request):
     username = request.data.get('username')
     password = request.data.get('password')
+    jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+    jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
     if password is None or username is None:
         return Response({'error': 'Por favor informe usuário e senha'},
@@ -27,5 +29,5 @@ def login(request):
         return Response({'error': 'Credenciais inválidas'},
                         status=HTTP_404_NOT_FOUND)
 
-    token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key}, status=HTTP_200_OK)
+    token = jwt_payload_handler(user)
+    return Response({"Token": jwt_encode_handler(token)}, status=HTTP_200_OK)

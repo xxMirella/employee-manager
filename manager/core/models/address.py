@@ -7,6 +7,7 @@ class Address(models.Model):
 
     class Meta:
         db_table = 'address'
+        verbose_name_plural = 'adresses'
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     street = models.CharField(null=False, blank=False, max_length=200)
