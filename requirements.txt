@@ -1,4 +1,4 @@
-Django==2.2.1
+Django==2.2.18
 python-dotenv==0.10.2
 djangorestframework>=3.9.1
 djangorestframework-jwt==1.11.0
